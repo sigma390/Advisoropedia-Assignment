@@ -37,3 +37,12 @@ interface Post extends Document {
   });
   
   const PostModel = mongoose.model<Post>('Post', postSchema);
+
+  // ================> Connect to MongoDB <======================
+const MONGODB_URI = process.env.MONGODB_URI!
+
+mongoose.connect(MONGODB_URI, {})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(error => console.error('Error connecting to MongoDB:', error));
+
+export { UserModel, PostModel };
