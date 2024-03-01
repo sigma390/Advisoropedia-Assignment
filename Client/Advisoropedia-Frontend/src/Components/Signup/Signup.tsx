@@ -27,12 +27,12 @@ const Signup = () => {
     setPassword('');
   };
   const handleShowPassword = () => {
-    if (passChnage=== 'text') {
+    if (passChnage=== 'email') {
       setPassChange("password");
 
       
     }else{
-      setPassChange("text")
+      setPassChange("email")
 
     }
     
@@ -101,7 +101,7 @@ const Signup = () => {
         <label className='ml-5' htmlFor="terms">I agree to the terms and conditions</label>
       </div>
       <div className='flex mt-5 justify-center items-center'>
-      <button className=' w-32 flex p-2 bg-orange-700 
+      <button className=' pb-1 w-32 flex p-2 bg-orange-700 
       rounded-xl justify-center items-center text-center
        text-xl text-white
         hover:bg-orange-500
