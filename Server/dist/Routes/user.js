@@ -62,10 +62,12 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 //===========================> Get all posts Route <=============
+//=================>  proper Authentication is applied on this route <===================
 router.get('/posts', Auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const courses = yield db_1.Post.find({});
-    res.json({ courses });
+    const posts = yield db_1.Post.find({});
+    res.json({ posts });
 }));
+// just for testing purpse i have added this create Post route
 router.post('/post', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const post = new db_1.Post(req.body);
     yield post.save();

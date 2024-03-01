@@ -60,12 +60,17 @@ router.post('/login', async (req: Request, res: Response) => {
 
 
 //===========================> Get all posts Route <=============
+//=================>  proper Authentication is applied on this route <===================
+
 router.get('/posts', authenticateJwt, async (req, res) => {
-    const courses = await Post.find({});
-    res.json({ courses });
+    const posts= await Post.find({});
+    res.json({ posts });
   });
   
 
+
+
+  // just for testing purpse i have added this create Post route
   router.post('/post', async (req, res) => {
     const post = new Post(req.body);
     await post.save();
