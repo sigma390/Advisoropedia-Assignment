@@ -8,6 +8,7 @@ import { Layout } from './Layout.tsx'
 // import { About } from './Components/About/About.tsx'
 import Home from './Components/Home/Home.tsx'
 import  Signup  from './Components/Signup/Signup.tsx'
+import Login from './Components/Login/Login.tsx'
 // import { Contact } from './Components/Contact/Contact.tsx'
 // import { User } from './Components/User/User.tsx'
 // import { Github, githubLoader } from './Components/Github/Github.tsx'
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
         {/* //children routes */}
         <Route path='' element={<Home/>}/>
         <Route path='/signup' element={<Signup/>}/>
+        <Route path='/login' element={<Login/>}/>
         {/* //Dynamic Routing */}
         
        
