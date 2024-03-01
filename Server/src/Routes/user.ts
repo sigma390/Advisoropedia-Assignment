@@ -67,9 +67,9 @@ router.get('/posts', authenticateJwt, async (req, res) => {
   
 
   router.post('/post', async (req, res) => {
-    const course = new Post(req.body);
-    await course.save();
-    res.json({ message: 'CPost created successfully', postId: course.id });
+    const post = new Post(req.body);
+    await post.save();
+    res.json({ message: 'Post created successfully', postId: post.id });
   });
 
 export default router;
