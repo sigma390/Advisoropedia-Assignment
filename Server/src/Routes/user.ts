@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { authenticateJwt, SECRET } from "../middleware/Auth";
 import { Post, User} from "../db/db";
 import { Request, Response, Router } from 'express';
-import { loginLimiter } from '../middleware/LoginLimiter';
+
 
 const router = express.Router();
 
