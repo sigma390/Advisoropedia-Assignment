@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 
-const SECRET = process.env.JWT_SECRET || 'defaultSecret'; // Load from environment variable
+ const SECRET = process.env.JWT_SECRET!;
 
 
 interface AuthenticatedRequest extends Request {

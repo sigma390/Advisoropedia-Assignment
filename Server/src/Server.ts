@@ -4,8 +4,9 @@ import jwt from 'jsonwebtoken';
 
 import cors from 'cors';
 
-import userRouter from "./Routes/user
+import userRouter from "./Routes/user"
 import path from "path";
+import mongoose from 'mongoose';
 dotenv.config();
 
 

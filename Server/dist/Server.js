@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("./Routes/user"));
+const mongoose_1 = __importDefault(require("mongoose"));
 dotenv.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -41,6 +42,6 @@ app.listen(port, () => {
 });
 // ================> Connect to MongoDB <======================
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI, {})
+mongoose_1.default.connect(MONGODB_URI, {})
     .then(() => console.log('Connected to MongoDB'))
     .catch(error => console.error('Error connecting to MongoDB:', error));
