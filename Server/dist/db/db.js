@@ -41,8 +41,3 @@ const postSchema = new mongoose_1.Schema({
 });
 const Post = mongoose_1.default.model('Post', postSchema);
 exports.Post = Post;
-// ================> Connect to MongoDB <======================
-const MONGODB_URI = process.env.MONGODB_URI;
-mongoose_1.default.connect(MONGODB_URI, {})
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(error => console.error('Error connecting to MongoDB:', error));
