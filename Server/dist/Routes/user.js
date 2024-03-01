@@ -36,4 +36,39 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }));
+//========================> Login Route <===================
+let attempts = {};
+router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    try {
+        const user = yield db_1.User.findOne({ username, password });
+        if (user) {
+            const token = jsonwebtoken_1.default.sign({ username, role: 'user' }, Auth_1.SECRET, { expiresIn: '1h' });
+            return res.json({ message: 'Logged in successfully', token });
+        }
+        else {
+            attempts[username] = (attempts[username] || 0) + 1;
+            if (attempts[username] > 3) {
+                return res.status(403).json({ message: 'Max Attempts Reached Try in 10 minutes' });
+            }
+            else {
+                return res.status(403).json({ message: 'Invalid username or password' });
+            }
+        }
+    }
+    catch (error) {
+        console.error('Error logging in:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}));
+//===========================> Get all posts Route <=============
+router.get('/posts', Auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const courses = yield db_1.Post.find({});
+    res.json({ courses });
+}));
+router.post('/post', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const course = new db_1.Post(req.body);
+    yield course.save();
+    res.json({ message: 'CPost created successfully', postId: course.id });
+}));
 exports.default = router;

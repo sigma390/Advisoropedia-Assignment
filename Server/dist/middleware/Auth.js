@@ -30,7 +30,7 @@ exports.SECRET = exports.authenticateJwt = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-const SECRET = process.env.JWT_SECRET || 'defaultSecret'; // Load from environment variable
+const SECRET = process.env.JWT_SECRET;
 exports.SECRET = SECRET;
 const authenticateJwt = (req, res, next) => {
     const authHeader = req.headers.authorization;
