@@ -29,7 +29,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-const router = express_1.default.Router();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.listen(port, () => {

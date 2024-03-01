@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostModel = exports.UserModel = void 0;
+exports.Post = exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const dotenv = __importStar(require("dotenv"));
 // Load environment variables from .env file
@@ -32,15 +32,15 @@ const userSchema = new mongoose_1.Schema({
     username: { type: String },
     password: String
 });
-const UserModel = mongoose_1.default.model('User', userSchema);
-exports.UserModel = UserModel;
+const User = mongoose_1.default.model('User', userSchema);
+exports.User = User;
 const postSchema = new mongoose_1.Schema({
     title: String,
     description: String,
     images: String
 });
-const PostModel = mongoose_1.default.model('Post', postSchema);
-exports.PostModel = PostModel;
+const Post = mongoose_1.default.model('Post', postSchema);
+exports.Post = Post;
 // ================> Connect to MongoDB <======================
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose_1.default.connect(MONGODB_URI, {})
