@@ -6,7 +6,6 @@ import { Route, RouterProvider, createRoutesFromElements } from 'react-router-do
 import { createBrowserRouter } from 'react-router-dom'
 import { Layout } from './Layout.tsx'
 // import { About } from './Components/About/About.tsx'
-import Home from './Components/Home/Home.tsx'
 import  Signup  from './Components/Signup/Signup.tsx'
 import Login from './Components/Login/Login.tsx'
 // import { Contact } from './Components/Contact/Contact.tsx'
@@ -41,7 +40,7 @@ const router = createBrowserRouter(
     //Route path '/' Roote Compoent Render Karaycha
     <Route path ='/' element={<Layout/>}> 
         {/* //children routes */}
-        <Route path='' element={<Home/>}/>
+        <Route path='' element={<Signup/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
         {/* //Dynamic Routing */}
