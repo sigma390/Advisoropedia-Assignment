@@ -5,32 +5,9 @@ import './index.css'
 import { Route, RouterProvider, createRoutesFromElements } from 'react-router-dom'
 import { createBrowserRouter } from 'react-router-dom'
 import { Layout } from './Layout.tsx'
-// import { About } from './Components/About/About.tsx'
+
 import  Signup  from './Components/Signup/Signup.tsx'
 import Login from './Components/Login/Login.tsx'
-// import { Contact } from './Components/Contact/Contact.tsx'
-// import { User } from './Components/User/User.tsx'
-// import { Github, githubLoader } from './Components/Github/Github.tsx'
-
-
-//================> 1ST WAY <=====================
-// const router = createBrowserRouter([{
-//   path:'/',
-//   element:<Layout/>, //parent element
-//   children:[{
-//     path:'',
-//     element:<Home/>
-
-//   },{
-//     path:'about',
-//     element:<About/>
-
-//   },{
-//     path:'/contact',
-//     element:<Contact/>
-//   }]
-
-// }])
 
 //=======================>2nd WAY<=====================
 
