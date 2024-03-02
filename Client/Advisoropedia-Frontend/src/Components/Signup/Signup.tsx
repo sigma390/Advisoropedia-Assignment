@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const baseURL =  'http://localhost:3000/user'
 
@@ -9,6 +10,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const navigate = useNavigate()
 
   const [passChnage, setPassChange]  =useState('password');
 
@@ -50,9 +52,11 @@ const Signup = () => {
     try {
       const response: AxiosResponse = await axios.post(baseURL+'/signup', formData);
       console.log('Signup response:', response.data);
+      localStorage.setItem("token",response.data.token)
       toast.success(`Welcome!!! email has been sent to ${username}`,{
         position:'top-center'
       });
+      navigate("/post")
       // Handle successful login response here
     } catch (error) {
       if (axios.isAxiosError(error)) {

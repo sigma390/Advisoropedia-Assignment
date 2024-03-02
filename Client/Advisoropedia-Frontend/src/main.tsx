@@ -8,6 +8,7 @@ import { Layout } from './Layout.tsx'
 
 import  Signup  from './Components/Signup/Signup.tsx'
 import Login from './Components/Login/Login.tsx'
+import { PostCard } from './Components/Posts/PostCard.tsx'
 
 //=======================>2nd WAY<=====================
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
         <Route path='' element={<Signup/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/post' element={<PostCard title={'hiii'} description={'fdsfss'} image={'fdsfsfds'}/>}/>
         {/* //Dynamic Routing */}
         
        
