@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const baseURL =  'http://localhost:3000/user';
@@ -30,7 +32,11 @@ const Login = () => {
   
     try {
       const response: AxiosResponse = await axios.post(baseURL+'/login', formData);
+      
       console.log('Login response:', response.data);
+      toast.success("Login Successfull!",{
+        position:'top-center'
+      });
       // Handle successful login response here
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -48,7 +54,8 @@ const Login = () => {
   };
 
   return (
-    <div className=" shadow-lg shadow-slate-400 hover:scale-105 duration-200 signup-card ">
+    <>
+     <div className=" shadow-lg shadow-slate-400 hover:scale-105 duration-200 signup-card ">
       <h2 className='text-2xl text-center hover:scale-110 duration-200' >Login</h2>
       <div className="input-group">
         <label htmlFor="username">Username (Email)</label>
@@ -79,11 +86,17 @@ const Login = () => {
 
 
       </div>
+      
      
       
       
       
     </div>
+    <ToastContainer/>
+    
+    
+    </>
+   
   );
 };
 
