@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const baseURL =  'http://localhost:3000/user'
 
@@ -49,6 +50,9 @@ const Signup = () => {
     try {
       const response: AxiosResponse = await axios.post(baseURL+'/signup', formData);
       console.log('Signup response:', response.data);
+      toast.success(`Welcome!!! email has been sent to ${username}`,{
+        position:'top-center'
+      });
       // Handle successful login response here
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -66,6 +70,9 @@ const Signup = () => {
   };
 
   return (
+
+
+    <>
     <div className=" shadow-lg shadow-slate-400 hover:scale-105 duration-200 signup-card ">
       <h2 className='text-2xl text-center hover:scale-110 duration-200' >Sign up</h2>
       <div className="input-group">
@@ -86,7 +93,7 @@ const Signup = () => {
           onChange={handlePasswordChange}
         />
         <div className=' flex justify-between'>
-        <button className=' mt-1 hover:text-orange-500 duration-200' onClick={handleResetPassword}>Reset Password</button>
+        <button className=' mt-1 hover:text-orange-500 duration-200' onClick={handleResetPassword}>Clear Password</button>
         <button className=' mt-1 hover:text-orange-500 duration-200' onClick={handleShowPassword} >Show Password</button>
         </div>
        
@@ -110,11 +117,18 @@ const Signup = () => {
 
 
       </div>
+      
      
       
       
       
     </div>
+    <ToastContainer/>
+    
+    
+    
+    </>
+    
   );
 };
 
