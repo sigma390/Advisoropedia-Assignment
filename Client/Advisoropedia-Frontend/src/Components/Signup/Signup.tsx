@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-const baseURL =  'http://localhost:3000/user'
+export const baseURL =  'http://localhost:3000/user'
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -56,7 +56,7 @@ const Signup = () => {
       toast.success(`Welcome!!! email has been sent to ${username}`,{
         position:'top-center'
       });
-      navigate("/post")
+      navigate("/posts")
       // Handle successful login response here
     } catch (error) {
       if (axios.isAxiosError(error)) {
