@@ -8,7 +8,9 @@ import { Layout } from './Layout.tsx'
 
 import  Signup  from './Components/Signup/Signup.tsx'
 import Login from './Components/Login/Login.tsx'
-import { PostCard } from './Components/Posts/PostCard.tsx'
+
+import { Auth0Provider } from '@auth0/auth0-react'
+import Posts from './Components/Posts/Posts.tsx'
 
 //=======================>2nd WAY<=====================
 
@@ -21,7 +23,7 @@ const router = createBrowserRouter(
         <Route path='' element={<Signup/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/post' element={<PostCard title={'hiii'} description={'fdsfss'} image={'fdsfsfds'}/>}/>
+        <Route path='/posts' element={<Posts/>}/>
         {/* //Dynamic Routing */}
         
        
@@ -32,7 +34,21 @@ const router = createBrowserRouter(
 )
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+
+  <Auth0Provider
+    domain="dev-vlhszc1hokefz48k.us.auth0.com"
+    clientId="dCedBqWn6U7GcBC6TEQ7RZGjqnr11GRI"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <React.StrictMode>
    <RouterProvider router={router}/>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </Auth0Provider>
+
+
+
+
+  
 )
