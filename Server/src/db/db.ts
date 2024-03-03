@@ -14,11 +14,13 @@ dotenv.config();
 interface User extends Document {
   username: string;
   password: string;
+  checkbox:boolean;
 }
 
 const userSchema: Schema = new Schema({
   username: { type: String },
-  password: String
+  password: String,
+  checkbox: Boolean
 });
 const User = mongoose.model<User>('User', userSchema);
 
