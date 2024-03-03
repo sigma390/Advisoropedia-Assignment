@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 export const baseURL =  'http://localhost:3000/user'
+
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -46,17 +47,17 @@ const Signup = () => {
     // Form data (assuming you have state variables for username and password)
     const formData = {
       username: username,
-      password: password
+      password: password,
+      checkbox: agreeTerms
     };
   
     try {
       const response: AxiosResponse = await axios.post(baseURL+'/signup', formData);
       console.log('Signup response:', response.data);
       localStorage.setItem("token",response.data.token)
-      toast.success(`Welcome!!! email has been sent to ${username}`,{
-        position:'top-center'
-      });
+      
       navigate("/posts")
+      
       // Handle successful login response here
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -77,6 +78,7 @@ const Signup = () => {
 
 
     <>
+    
     <div className=" shadow-lg shadow-slate-400 hover:scale-105 duration-200 signup-card ">
       <h2 className='text-2xl text-center hover:scale-110 duration-200' >Sign up</h2>
       <div className="input-group">
@@ -127,7 +129,7 @@ const Signup = () => {
       
       
     </div>
-    <ToastContainer/>
+    
     
     
     

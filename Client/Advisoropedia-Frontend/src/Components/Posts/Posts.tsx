@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PostCard } from './PostCard'; // Assuming PostCard is in the same directory
 import { baseURL } from '../Signup/Signup';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface Post {
   id:string;
@@ -20,11 +21,15 @@ const Posts: React.FC = () => {
         },
       });
       setPosts(response.data.posts);
+      toast.success(`Welcome!!! email has been sent`,{
+        position:'top-center'
+      });
+    
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
-
+  
 
 
 
@@ -36,11 +41,20 @@ const Posts: React.FC = () => {
   }, []);
 
   return (
+
+    <>
+    <ToastContainer/>
     <div className="grid mt-10 ml-24 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mr-24">
-      {posts.map((post) => (
-        <PostCard key={post.id} title={post.title} description={post.description} image={post.images} />
-      ))}
-    </div>
+
+{posts.map((post) => (
+  <PostCard key={post.id} title={post.title} description={post.description} image={post.images} />
+))}
+</div>
+    
+    
+    
+    </>
+    
   );
 };
 
