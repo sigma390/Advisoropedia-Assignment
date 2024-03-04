@@ -14,11 +14,11 @@ interface AuthenticatedRequest extends Request {
   }
 
 
-const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {
+const authenticateJwt = (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(' ')[1];
-    jwt.verify(token, SECRET, (err, user) => {
+    jwt.verify(token, SECRET, (err:any, user:any) => {
       if (err) {
         return res.sendStatus(403);
       }

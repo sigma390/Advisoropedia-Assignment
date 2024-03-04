@@ -16,8 +16,10 @@ const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Auth_1 = require("../middleware/Auth");
 const db_1 = require("../db/db");
+const validate_middleware_1 = __importDefault(require("../middleware/validate-middleware"));
+const auth_Val_1 = require("../validator/auth-Val");
 const router = express_1.default.Router();
-router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/signup', (0, validate_middleware_1.default)(auth_Val_1.signUpSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
         const user = yield db_1.User.findOne({ username });
@@ -38,7 +40,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
 }));
 //========================> Login Route <===================
 let attempts = {};
-router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/login', (0, validate_middleware_1.default)(auth_Val_1.loginSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
         const user = yield db_1.User.findOne({ username, password });
@@ -74,3 +76,6 @@ router.post('/post', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.json({ message: 'Post created successfully', postId: post.id });
 }));
 exports.default = router;
+function middleware() {
+    throw new Error('Function not implemented.');
+}

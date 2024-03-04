@@ -5,11 +5,15 @@ import jwt from 'jsonwebtoken';
 import { authenticateJwt, SECRET } from "../middleware/Auth";
 import { Post, User} from "../db/db";
 import { Request, Response, Router } from 'express';
+import validate from '../middleware/validate-middleware';
+import {loginSchema, signUpSchema} from '../validator/auth-Val';
+
+
 
 
 const router = express.Router();
 
-router.post('/signup', async (req, res) => {
+router.post('/signup',validate(signUpSchema), async (req:Request, res:Response) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
@@ -33,7 +37,7 @@ router.post('/signup', async (req, res) => {
 
 let attempts:any = {};
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login',validate(loginSchema), async (req: Request, res: Response) => {
     
     
   const { username, password } = req.body;
@@ -62,7 +66,7 @@ router.post('/login', async (req: Request, res: Response) => {
 //===========================> Get all posts Route <=============
 //=================>  proper Authentication is applied on this route <===================
 
-router.get('/posts', authenticateJwt, async (req, res) => {
+router.get('/posts', authenticateJwt,async (req, res) => {
     const posts= await Post.find({});
     res.json({ posts });
   });
@@ -80,4 +84,8 @@ router.get('/posts', authenticateJwt, async (req, res) => {
 export default router;
 
 
+
+function middleware() {
+  throw new Error('Function not implemented.');
+}
 

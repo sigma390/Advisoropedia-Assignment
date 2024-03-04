@@ -30,7 +30,8 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const userSchema = new mongoose_1.Schema({
     username: { type: String },
-    password: String
+    password: String,
+    checkbox: Boolean
 });
 const User = mongoose_1.default.model('User', userSchema);
 exports.User = User;
