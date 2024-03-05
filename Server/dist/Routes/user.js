@@ -40,7 +40,7 @@ router.post('/signup', (0, validate_middleware_1.default)(auth_Val_1.signUpSchem
 }));
 //========================> Login Route <===================
 let attempts = {};
-router.post('/login', (0, validate_middleware_1.default)(auth_Val_1.loginSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
         const user = yield db_1.User.findOne({ username, password });

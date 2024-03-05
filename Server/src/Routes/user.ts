@@ -37,7 +37,7 @@ router.post('/signup',validate(signUpSchema), async (req:Request, res:Response) 
 
 let attempts:any = {};
 
-router.post('/login',validate(loginSchema), async (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response) => {
     
     
   const { username, password } = req.body;
