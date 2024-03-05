@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { object, string,  ZodError } from 'zod';
 
 export const baseURL =  'http://localhost:3000/user'
 
@@ -10,22 +11,25 @@ export const baseURL =  'http://localhost:3000/user'
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
+
+  const [rememberMe, setRememberMe] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
+
   const navigate = useNavigate()
 
   const [passChnage, setPassChange]  =useState('password');
 
-  const handleUsernameChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
+    clearValidationError('username');
   };
 
-  const handlePasswordChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+    clearValidationError('password');
   };
 
-  const handleTermsChange = () => {
-    setAgreeTerms(!agreeTerms);
-  };
+  
 
   const handleResetPassword = () => {
     setPassword('');
@@ -41,36 +45,78 @@ const Signup = () => {
     }
     
   };
+
+  const clearValidationError = (fieldName: string) => {
+    setValidationErrors((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      delete updatedErrors[fieldName];
+      return updatedErrors;
+    });
+  };
+
+  const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+    clearValidationError('rememberMe');
+  };
+
+  // Input validation Schema
+
+  const schema = object({
+    username: string().email({ message: 'Please enter a valid email address' }),
+    password: string().min(6, { message: 'Password must be at least 6 characters long' }),
+
+   
+  });
   
 
   const handleSubmit = async () => {
     // Form data (assuming you have state variables for username and password)
-    const formData = {
-      username: username,
-      password: password,
-      checkbox: agreeTerms
-    };
+   
   
     try {
+      schema.parse({ username, password });
+      const formData = {
+        username: username,
+        password: password,
+        rememberMe:rememberMe
+      };
       const response: AxiosResponse = await axios.post(baseURL+'/signup', formData);
-      console.log('Signup response:', response.data);
+      
+      console.log('Login response:', response.data);
       localStorage.setItem("token",response.data.token)
-      
+      toast.success("Login Successfull!",{
+        position:'top-center'
+      });
       navigate("/posts")
-      
       // Handle successful login response here
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response) {
-          console.error('Signup error:', axiosError.response.data);
-          // Handle error response from the server
-        } else {
-          console.error('Signup error:', axiosError.message);
-          // Handle other types of errors
+      
+
+        // Handle Zod validation errors
+        
+        if (error instanceof ZodError) {
+          const validationErrors: { [key: string]: string } = {};
+          error.errors.forEach((validationError) => {
+            const field = validationError.path.join('_');
+            validationErrors[field] = validationError.message;
+          });
+        setValidationErrors(validationErrors);
+
         }
+        // Handle axios errors
+        else if (axios.isAxiosError(error)) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response) {
+            const responseData = axiosError.response.data as Record<string, unknown>;
+            const errorMessage = responseData.message;
+            toast.error(`${errorMessage}`, { position: 'top-center' });
+          } else {
+            console.error('Login error:', axiosError.message);
+            toast.error('An error occurred. Please try again later.', { position: 'top-center' });
+            
+          }
+        
       }
-       
     }
   };
 
@@ -78,7 +124,7 @@ const Signup = () => {
 
 
     <>
-    
+    <ToastContainer/>
     <div className=" shadow-lg shadow-slate-400 hover:scale-105 duration-200 signup-card ">
       <h2 className='text-2xl text-center hover:scale-110 duration-200' >Sign up</h2>
       <div className="input-group">
@@ -89,6 +135,9 @@ const Signup = () => {
           value={username}
           onChange={handleUsernameChange}
         />
+        {validationErrors.username && (
+          <div className="error-message  text-red-600">{validationErrors.username}</div>
+        )}
       </div>
       <div className="input-group">
         <label htmlFor="password">Password (Min 6 characters)</label>
@@ -98,6 +147,9 @@ const Signup = () => {
           value={password}
           onChange={handlePasswordChange}
         />
+        {validationErrors.password && (
+          <div className="error-message text-red-600">{validationErrors.password}</div>
+        )}
         <div className=' flex justify-between'>
         <button className=' mt-1 hover:text-orange-500 duration-200' onClick={handleResetPassword}>Clear Password</button>
         <button className=' mt-1 hover:text-orange-500 duration-200' onClick={handleShowPassword} >Show Password</button>
@@ -105,13 +157,16 @@ const Signup = () => {
        
       </div>
       <div className=" flex-row inline">
-        <input
-          type="checkbox"
-          id="terms"
-          checked={agreeTerms}
-          onChange={handleTermsChange}
-        />
-        <label className='ml-5' htmlFor="terms">I agree to the terms and conditions</label>
+      <input
+            type="checkbox"
+            id="rememberMe"
+            checked={rememberMe}
+            onChange={handleRememberMeChange}
+          />
+        <label className='ml-5' htmlFor="rememberMe">I agree to the terms and conditions</label>
+        {validationErrors.rememberMe && (
+            <div className="error-message text-red-600">{validationErrors.rememberMe}</div>
+          )}
       </div>
       <div className='flex mt-5 justify-center items-center'>
       <button className=' pb-1 w-32 flex p-2 bg-orange-700 
