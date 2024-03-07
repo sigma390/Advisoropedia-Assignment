@@ -1,7 +1,9 @@
 
 
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
+import bcrypt from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 import * as dotenv from 'dotenv';
 
@@ -10,32 +12,49 @@ dotenv.config();
 
 // Define mongoose schemas
 
-//===============>  User schema <====================
+/// User interface
 interface User extends Document {
   username: string;
   password: string;
-  checkbox:boolean;
+  checkbox: boolean;
 }
 
+// Define user schema
 const userSchema: Schema = new Schema({
-  username: { type: String },
-  password: String,
-  checkbox: Boolean
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  checkbox: { type: Boolean, default: false }
 });
-const User = mongoose.model<User>('User', userSchema);
+// Hash password before saving
+userSchema.pre<User>('save', async function (next) {
+  try {
+    // Hash the password only if it's modified or new
+    if (!this.isModified('password')) {
+      return next();
+    }
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashedPassword;
+    next();
+  } catch (error) {
+    console.log("its eror")
+  }
+});
 
+// Create and export User model
+const User = model<User>('User', userSchema);
 
 //=======================>  Post schema <===========================
 interface Post extends Document {
     title: string;
     description: string;
-    images: string; // Assuming images are stored as URLs
+   
   }
   
   const postSchema: Schema = new Schema({
     title: String,
     description: String,
-    images: String
+
+
   });
   
   const Post = mongoose.model<Post>('Post', postSchema);
